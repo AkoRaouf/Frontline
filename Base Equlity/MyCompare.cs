@@ -46,5 +46,31 @@ namespace Frontline.Base_Equlity
             var res2 = xo == yo;
             var res3 = xo.Equals(yo); //At runtime the type is resolved as int, therefore the equality is done based on value type.
         }
+
+        public void EqualityComplexsity()
+        {
+            object x = 3, y = 3;
+
+            var res1 = object.Equals(x, y);
+
+            x = null;
+            var res2 = object.Equals(x, y);
+
+            y = null;
+            var res3 = object.Equals(x, y);
+        }
+
+        public class Test<T>
+        {
+            T _value;
+            public void SetValue(T newValue)
+            {
+                if(object.Equals(_value, newValue))
+                    _value = newValue;
+
+                EqualityComparer<T>.Default.Equals(_value, newValue);
+            }
+        }
+
     }
 }
