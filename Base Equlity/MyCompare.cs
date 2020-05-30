@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace Frontline.Base_Equlity
@@ -45,10 +46,24 @@ namespace Frontline.Base_Equlity
             object yo = 5;
             var res2 = xo == yo;
             var res3 = xo.Equals(yo); //At runtime the type is resolved as int, therefore the equality is done based on value type.
+            
         }
 
         public void EqualityComplexsity()
         {
+            string st = "aa";
+            string st2 = "aa";
+
+            StringBuilder stringBuilder1 = new StringBuilder("aa");
+            StringBuilder stringBuilder2 = new StringBuilder("aa");
+
+            var res7 = stringBuilder1 == stringBuilder2;
+            var res8 = stringBuilder1.Equals(stringBuilder2);
+
+            var res5 = st == st2;
+            var res6 = st.Equals(st2);
+
+            var res4 = 5.Equals(5);
             object x = 3, y = 3;
 
             var res1 = object.Equals(x, y);
@@ -60,7 +75,7 @@ namespace Frontline.Base_Equlity
             var res3 = object.Equals(x, y);
         }
 
-        public class Test<T>
+        public class Test<T> : IEquatable<T>
         {
             T _value;
             public void SetValue(T newValue)
@@ -70,7 +85,45 @@ namespace Frontline.Base_Equlity
 
                 EqualityComparer<T>.Default.Equals(_value, newValue);
             }
+
+            public override bool Equals(object obj)
+            {
+                return base.Equals(obj);
+            }
+
+            public bool Equals(T other)
+            {
+                return this.Equals(other);
+            }
         }
+
+        public class TestEquality<T> where T : IEquatable<T>
+        {
+            public bool IsEqual(T a, T b)
+            {
+                return a.Equals(b);
+            }
+        }
+
+        public class EqualityEntrance1<T> : IEquatable<T>
+        {
+            public int a;
+
+            public bool Equals([AllowNull] T other)
+            {
+                throw new NotImplementedException();
+            }
+        }
+    }
+
+    public class A
+    {
+        int a;
+        public B MyB { get; set; }
+        
+    }
+    public class B
+    {
 
     }
 }
